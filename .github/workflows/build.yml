@@ -31,7 +31,7 @@ jobs:
       mysql:
         image: mysql:${{ matrix.mysql }}
         env:
-          MYSQL_ROOT_PASSWORD: root
+          MYSQL_ROOT_PASSWORD: rootpass
           MYSQL_DATABASE: yii2advanced_test
         ports:
           - 3306:3306
@@ -91,5 +91,5 @@ jobs:
       - name: Apply migration
         run: php yii_test migrate --interactive=0
 
-      - name: Run tests with codeception 
+      - name: Run tests with codeception
         run: vendor/bin/codecept run
