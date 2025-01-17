@@ -146,6 +146,11 @@ class SiteController extends Controller
         return $this->render('about');
     }
 
+    public function actionHello($mensagem = 'olá!')
+    {
+        return $this->render('hello', ['mensagem' => $mensagem]);
+    }
+
     /**
      * Signs user up.
      *
