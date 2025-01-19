@@ -1,6 +1,6 @@
 <?php
 
-namespace frontend\controllers;
+namespace app\controllers;
 
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
