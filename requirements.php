@@ -13,6 +13,9 @@
 // you may need to adjust this path to the correct Yii framework path
 // uncomment and adjust the following line if Yii is not located at the default path
 //$frameworkPath = dirname(__FILE__) . '/vendor/yiisoft/yii2';
+
+// php yii serve --docroot=frontend/web --port=8081
+
 if (!isset($frameworkPath)) {
     $searchPaths = array(
         dirname(__FILE__) . '/vendor/yiisoft/yii2',

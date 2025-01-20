@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
+use GuzzleHttp\Psr7\Query;
 use Yii;
 use yii\base\InvalidArgumentException;
 use yii\web\BadRequestHttpException;
@@ -24,6 +25,9 @@ class SiteController extends Controller
     /**
      * {@inheritdoc}
      */
+
+
+
     public function behaviors()
     {
         return [
@@ -75,7 +79,37 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        //queryes
+        //get contratos
+        $connection = Yii::$app->db;
+        $getContratos = $connection->createCommand('SELECT 
+            tcc.id,
+            tc.nome as cliente,
+            tcc.numero_ctr,
+            tcc.valor_contratado,
+            tcc.data_inicio,
+            tcc.data_fim,
+            ts.nome_servico as servico_contratado,
+            tcc.detalhes 
+        FROM 
+            siscon.tb_contrato_cliente tcc
+        LEFT JOIN
+            siscon.tb_clientes tc 
+            ON tcc.id_cliente = tc.id
+        left join
+            siscon.tb_servicos ts 
+            on tcc.id_servico_contratado = ts.id
+        ')->queryAll();
+        //total
+        $totalContratoCliente = $connection->createCommand('select COUNT(*) as total from siscon.tb_contrato_cliente;')->queryOne();
+        $totalContratoFornecedor = $connection->createCommand('select COUNT(*) as total from siscon.tb_contrato_fornecedor;')->queryOne();
+
+        // var_dump($totalContratoCliente['total']);
+        return $this->render('profile', [
+            'getContratos' => $getContratos,
+            'totalContratoCliente' => $totalContratoCliente['total'],
+            'totalContratoFornecedor' => $totalContratoFornecedor['total'],
+        ]);
     }
 
     /**
@@ -145,6 +179,7 @@ class SiteController extends Controller
     {
         return $this->render('about');
     }
+
 
     public function actionHello($mensagem = 'olá!')
     {
