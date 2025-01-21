@@ -14,12 +14,12 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-2">
 
                     <!-- Profile Image -->
-                    <div class="card border-primary mb-3" style="max-width: 20rem;" bis_skin_checked="1">
-                        <div class="card-body box-profile">
-                            <div class="text-center">
+                    <div class="card border-secondary mb-3" style="max-width: 15rem;">
+                        <div class="card-body box-profile border border-secondary rounded">
+                            <div class="text-center border border-primary-subtle rounded">
                                 <img class="profile-user-img img-fluid img-circle" src="../../assets/img/gestor1.jpg"
                                     alt="User profile picture">
                             </div>
@@ -36,7 +36,7 @@
                                         </b>
                                     </p>
                                 </li>
-                                <li class="list-group-item">
+                                <li class="list-group-item text-small">
                                     <p>Contratos c/ Fornecedor:
                                         <b>
                                             <?= $totalContratoFornecedor ?>
@@ -50,16 +50,6 @@
                     <!-- /.card -->
 
                     <!-- About Me Box -->
-                    <div class="card card-primary">
-                        <div class="card-header">
-                            <h3 class="card-title">About Me</h3>
-                        </div>
-                        <!-- /.card-header -->
-                        <div class="card-body">
-
-                        </div>
-                        <!-- /.card-body -->
-                    </div>
                     <!-- /.card -->
                 </div>
                 <!-- /.col -->
@@ -70,22 +60,18 @@
                                 <li class="nav-item"><a class="nav-link active" href="#activity"
                                         data-toggle="tab">Resumo</a>
                                 </li>
-
                             </ul>
                         </div><!-- /.card-header -->
 
-
                         <div class="content">
                             <div class="row px-2 py-2">
-
                                 <div class="col-md-6">
-                                    <div class="card border-primary mb-3">
+                                    <div class="card border-secondary mb-3">
                                         <div class="tab-content">
                                             <div class="active tab-pane" id="activity">
-                                                <div class="card card-danger">
+                                                <div class="card">
                                                     <div class="card-header">
-                                                        <h3 class="card-title">Donut Chart</h3>
-
+                                                        <h5 class="card-title">Rel. Contratos</h5>
                                                         <div class="card-tools">
                                                             <button type="button" class="btn btn-tool"
                                                                 data-card-widget="collapse">
@@ -98,14 +84,6 @@
                                                         </div>
                                                     </div>
                                                     <div class="card-body">
-                                                        <div class="chartjs-size-monitor">
-                                                            <div class="chartjs-size-monitor-expand">
-                                                                <div class=""></div>
-                                                            </div>
-                                                            <div class="chartjs-size-monitor-shrink">
-                                                                <div class=""></div>
-                                                            </div>
-                                                        </div>
                                                         <canvas id="donutChart"
                                                             style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block; width: 744px;"
                                                             width="744" height="250"
@@ -119,12 +97,38 @@
                                 </div>
                                 <!-- /.tab-pane -->
 
+                                <!-- Bar Chart -->
+                                <div class="col-md-6">
+                                    <div class="card border-secondary mb-3">
+                                        <div class="card-header">
+                                            <h5 class="card-title">Bar Chart</h5>
+                                            <div class="card-tools">
+                                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                                    <i class="fas fa-minus"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                                    <i class="fas fa-times"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <canvas id="barChart"
+                                                style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block; width: 744px;"
+                                                width="744" height="250" class="chartjs-render-monitor"></canvas>
+                                        </div>
+                                        <!-- /.card-body -->
+                                    </div>
+                                </div>
+                                <!-- /.tab-pane -->
 
+                                <!-- Line Chart -->
+
+                                <!-- /.tab-pane -->
 
                             </div>
-                            <!-- /.tab-pane -->
+                            <!-- /.row -->
                         </div>
-                        <!-- /.tab-content -->
+                        <!-- /.content -->
                     </div><!-- /.card-body -->
                 </div>
                 <!-- /.card -->
@@ -132,8 +136,62 @@
             <!-- /.col -->
         </div>
         <!-- /.row -->
-
-</div><!-- /.container-fluid -->
-</section>
-<!-- /.content -->
+    </section>
+    <!-- /.content -->
 </div>
+<!-- /.container-fluid -->
+
+<!-- Adicione o Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+// Donut Chart
+var donutChartCanvas = document.getElementById('donutChart').getContext('2d');
+var donutData = {
+    labels: [
+        'Total Clientes',
+        'Total Fornecedores',
+
+    ],
+    datasets: [{
+        data: [
+            <?= $listContratos['totalClientes'] ?>,
+            <?= $listContratos['totalFornecedores'] ?>
+
+        ],
+
+
+        backgroundColor: ['#000cfc', '#aaba00', '#00c0ef', '#3c8dbc', '#d2d6de'],
+    }]
+};
+var donutOptions = {
+    maintainAspectRatio: false,
+    responsive: true,
+};
+new Chart(donutChartCanvas, {
+    type: 'doughnut',
+    data: donutData,
+    options: donutOptions
+});
+
+// Bar Chart
+var barChartCanvas = document.getElementById('barChart').getContext('2d');
+var barData = {
+    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+    datasets: [{
+        label: 'Dataset 1',
+        backgroundColor: '#f56954',
+        borderColor: '#f56954',
+        data: [10, 20, 30, 40, 50, 60, 70]
+    }]
+};
+var barOptions = {
+    maintainAspectRatio: false,
+    responsive: true,
+};
+new Chart(barChartCanvas, {
+    type: 'bar',
+    data: barData,
+    options: barOptions
+});
+</script>
