@@ -32,13 +32,12 @@ class TbContratoCliente extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'id_cliente', 'data_inicio', 'data_fim', 'id_servico_contratado', 'detalhes'], 'required'],
-            [['id', 'id_cliente', 'id_servico_contratado'], 'integer'],
+            [['id_cliente', 'data_inicio', 'data_fim', 'id_servico_contratado', 'detalhes'], 'required'],
+            [['id_cliente', 'id_servico_contratado'], 'integer'],
             [['valor_contratado'], 'number'],
             [['data_inicio', 'data_fim'], 'safe'],
             [['detalhes'], 'string'],
             [['numero_ctr'], 'string', 'max' => 20],
-            [['id'], 'unique'],
         ];
     }
 

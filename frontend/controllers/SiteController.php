@@ -104,11 +104,27 @@ class SiteController extends Controller
         $totalContratoCliente = $connection->createCommand('select COUNT(*) as total from siscon.tb_contrato_cliente;')->queryOne();
         $totalContratoFornecedor = $connection->createCommand('select COUNT(*) as total from siscon.tb_contrato_fornecedor;')->queryOne();
 
-        // var_dump($totalContratoCliente['total']);
+        //listas
+        $listContratos = [
+            'totalClientes' => $totalContratoCliente['total'],
+            'totalFornecedores' => $totalContratoFornecedor['total'],
+        ];
+
+        $valorContratosClientes = $connection->createCommand('select sum(valor_contratado) as valor_contratado from siscon.tb_contrato_cliente;')->queryOne();
+        $valorContratosFornecedor = $connection->createCommand('select sum(valor_contratado) as valor_contratado from siscon.tb_contrato_fornecedor;')->queryOne();
+
+        $valoresContratados = [
+            'totalClientes' => $valorContratosClientes['valor_contratado'],
+            'totalFornecedores' => $valorContratosFornecedor['valor_contratado'],
+        ];
+
+        //var_dump($listContratos);
         return $this->render('profile', [
             'getContratos' => $getContratos,
             'totalContratoCliente' => $totalContratoCliente['total'],
             'totalContratoFornecedor' => $totalContratoFornecedor['total'],
+            'listContratos' => $listContratos,
+            'valoresContratados' => $valoresContratados,
         ]);
     }
 
